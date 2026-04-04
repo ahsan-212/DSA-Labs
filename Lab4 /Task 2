@@ -1,1 +1,39 @@
+#include <iostream>
+#include <stack>
+using namespace std;
 
+template <typename T>
+class StackQueue {
+    stack<T> s1, s2;
+public:
+    void enQueue(T x) { s1.push(x); }
+
+    T deQueue() {
+        if (s2.empty()) {
+            while (!s1.empty()) { s2.push(s1.top()); s1.pop(); }
+        }
+        if (s2.empty()) return T();
+        T val = s2.top(); s2.pop();
+        return val;
+    }
+
+    void display() {
+        stack<T> temp1 = s1, temp2 = s2;
+        while(!temp2.empty()) { cout << temp2.top() << " "; temp2.pop(); }
+        stack<T> rev;
+        while(!temp1.empty()) { rev.push(temp1.top()); temp1.pop(); }
+        while(!rev.empty()) { cout << rev.top() << " "; rev.pop(); }
+        cout << endl;
+    }
+};
+
+int main() {
+    StackQueue<int> sq;
+    sq.enQueue(10);
+    sq.enQueue(20);
+    sq.enQueue(30);
+    sq.display(); 
+    cout << "Dequeued: " << sq.deQueue() << endl;
+    sq.display();
+    return 0;
+}
