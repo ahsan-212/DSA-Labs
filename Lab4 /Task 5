@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+template <typename T>
+class PrintQueue {
+    T* arr;
+    int maxSize, frontIdx, rearIdx, currentSize;
+public:
+    PrintQueue(int s) : maxSize(s), frontIdx(0), rearIdx(-1), currentSize(0) {
+        arr = new T[maxSize];
+    }
+    void enqueue(T doc) {
+        if (currentSize == maxSize) return;
+        rearIdx = (rearIdx + 1) % maxSize;
+        arr[rearIdx] = doc;
+        currentSize++;
+    }
+    T dequeue() {
+        T val = arr[frontIdx];
+        frontIdx = (frontIdx + 1) % maxSize;
+        currentSize--;
+        return val;
+    }
+    T front() { return arr[frontIdx]; }
+    void display() {
+        int temp = frontIdx;
+        for (int i = 0; i < currentSize; i++) {
+            cout << "-> " << arr[temp] << endl;
+            temp = (temp + 1) % maxSize;
+        }
+    }
+    bool isEmpty() { return currentSize == 0; }
+};
+
+int main() {
+    PrintQueue<string> printer(10); 
+    printer.enqueue("Lab_Report.pdf"); 
+    printer.enqueue("Thesis_Draft.docx");
+    printer.enqueue("Project_Code.cpp");
+
+    cout << "Current Print Queue:\n";
+    printer.display(); 
+
+    cout << "\nPrinting front document: " << printer.dequeue() << endl; 
+    cout << "Next document waiting: " << printer.front() << endl; 
+    
+    return 0;
+}
