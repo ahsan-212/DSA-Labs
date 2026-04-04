@@ -1,1 +1,69 @@
-
+//#include<iostream>
+//using namespace std;
+//
+//template <typename T>
+//void printArray(T arr[], int size) {
+//
+//	for (int i = 0; i < size; i++) {
+//		cout << arr[i] << " ";
+//	}
+//
+//}
+//
+//template <typename T>
+//void selectionSort(T *arr,int size) {
+//
+//
+//	for (int i = 0; i < size - 1; i++) {
+//		int min = i;   //assume l first index value is smallest,a
+//
+//		for (int j = i + 1; j < size; j++) {
+//
+//			if (arr[min] > arr[j]) { // check if there is a value then the first index ki value
+//
+//				min = j; // if yes, then index change
+//
+//			}
+//		}
+//
+//		if (min != i) { // if index value change so swap the current value with next one
+//
+//			T temp = arr[i];
+//			arr[i] = arr[min];
+//			arr[min] = temp;
+//
+//		}
+//	}
+//}
+//
+//
+//
+//
+//
+//int main() {
+//
+//	int arr[] = { 22,45,63,11,33 };
+//	int n = sizeof(arr) / sizeof(arr[0]); // can be replaced by simply n=5
+//
+//		// Test with an integer array of size 5 int intArray[5] = {64, 25, 12, 22, 11}; cout << "Original integer array: "; printArray(intArray); selectionSort(intArray);
+//	    cout << "\nOriginal string array: ";
+//	    printArray(arr, n);
+//		cout << endl;
+//	    cout << "Sorted integer array: ";
+//		selectionSort(arr,n);
+//		printArray(arr, n);
+//		cout << endl;
+//
+//		string stringArray[4] = { "apple", "orange", "banana", "grape" };
+//		cout << "\nOriginal string array: ";
+//		printArray(stringArray,4);
+//		cout << endl;
+//
+//		selectionSort(stringArray,4);
+//		cout << "Sorted string array: ";
+//		printArray(stringArray,4);
+//
+//
+//	
+//
+//}
