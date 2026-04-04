@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Package {
+    int id;
+    string address;
+    int startTime, endTime; 
+};
+
+template <typename T>
+class DeliveryQueue {
+    T* arr;
+    int maxSize, frontIdx, rearIdx, currentSize;
+public:
+    DeliveryQueue(int s) : maxSize(s), frontIdx(0), rearIdx(-1), currentSize(0) {
+        arr = new T[maxSize];
+    }
+    void enqueue(T p) {
+        if (currentSize == maxSize) return;
+        rearIdx = (rearIdx + 1) % maxSize;
+        arr[rearIdx] = p;
+        currentSize++;
+    }
+    void dequeue() {
+        frontIdx = (frontIdx + 1) % maxSize;
+        currentSize--;
+    }
+    T front() { return arr[frontIdx]; }
+    bool isEmpty() { return currentSize == 0; }
+    
+    void timeToDeliver(int currentTime) {
+        if (isEmpty()) return;
+        if (currentTime > arr[frontIdx].endTime) {
+            cout << "Package " << arr[frontIdx].id << " EXPIRED at time " << arr[frontIdx].endTime << ". Removing.\n";
+            dequeue();
+        } else {
+            cout << "Package " << arr[frontIdx].id << " is VALID for delivery to " << arr[frontIdx].address << ".\n";
+        }
+    }
+};
+
+int main() {
+    DeliveryQueue<Package> dq(5);
+    
+    dq.enqueue({101, "123 Oak St", 9, 12}); 
+    dq.enqueue({102, "456 Maple Ave", 10, 15});
+
+    int currentTime = 13; // time 1pm
+    cout << "Current Time: " << currentTime << ":00\n";
+
+    dq.timeToDeliver(currentTime);
+    
+    return 0;
+}
