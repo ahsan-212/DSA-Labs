@@ -1,1 +1,103 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
 
+class TextEditor {
+private:
+    stack<char> undoStack; 
+    stack<char> redoStack; 
+
+public:
+    void type(char c) {
+        undoStack.push(c);
+        // Clear redo stack when a new character is typed 
+        while (!redoStack.empty()) {
+            redoStack.pop();
+        }
+        cout << "Typed: " << c << endl;
+    }
+
+    void undo() {
+        if (!undoStack.empty()) {
+            redoStack.push(undoStack.top()); // Save to redo stack 
+            undoStack.pop(); 
+            cout << "Undo successful.\n";
+        }
+        else {
+            cout << "Nothing to undo.\n";
+        }
+    }
+
+    void redo() {
+        if (!redoStack.empty()) {
+            undoStack.push(redoStack.top()); // Restore to undo stack 
+            redoStack.pop();
+            cout << "Redo successful.\n";
+        }
+        else {
+            cout << "Nothing to redo.\n";
+        }
+    }
+
+    void display() {
+        if (undoStack.empty()) {
+            cout << "Text is empty." << endl;
+            return;
+        }
+
+        // We use a temporary stack to print characters in the correct order
+        stack<char> temp;
+        stack<char> copy = undoStack;
+
+        while (!copy.empty()) {
+            temp.push(copy.top());
+            copy.pop();
+        }
+
+        cout << "Current Text: ";
+        while (!temp.empty()) {
+            cout << temp.top();
+            temp.pop();
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    TextEditor editor;
+    int choice;
+    char ch;
+
+    while (true) {
+        cout << "\n--- Text Editor Menu ---" << endl;
+        cout << "1. Type Character\n2. Undo\n3. Redo\n4. Display Text\n5. Exit" << endl;
+        cout << "Enter Choice: ";
+        cin >> choice;
+
+        
+        if (choice == 1) {
+            cout << "Enter character: ";
+            cin >> ch;
+            editor.type(ch);
+        }
+        else if (choice == 2) {
+            editor.undo();
+        }
+        else if (choice == 3) {
+            editor.redo();
+        }
+        else if (choice == 4) {
+            editor.display();
+        }
+        else if (choice == 5) {
+            cout << "Exiting..." << endl;
+            break;
+        }
+        else {
+            cout << "Invalid choice! Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
