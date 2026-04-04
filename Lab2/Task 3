@@ -1,0 +1,138 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+class Publication {
+public:
+    virtual void display() const = 0;
+    virtual ~Publication() {}
+};
+
+class Book : public Publication {
+public:
+    string title, author;
+    int pages;
+
+    Book() : title(""), author(""), pages(0) {} 
+    Book(string t, string a, int p) : title(t), author(a), pages(p) {}
+
+    void display() const override {
+        cout << "Book: " << title << " by " << author << " (" << pages << " pages)" << endl;
+    }
+
+    bool operator!() const { return title == ""; }
+};
+
+class Newspaper : public Publication {
+public:
+    string name, date, edition;
+
+    Newspaper() : name(""), date(""), edition("") {}
+    Newspaper(string n, string d, string e) : name(n), date(d), edition(e) {}
+
+    void display() const override {
+        cout << "Newspaper: " << name << " [" << date << "] - " << edition << endl;
+    }
+
+    bool operator!() const { return name == ""; }
+};
+
+class Library {
+private:
+    vector<Book> books;
+    vector<Newspaper> newspapers;
+
+public:
+    void addBook(Book b) { books.push_back(b); } 
+    void addNewspaper(Newspaper n) { newspapers.push_back(n); } 
+
+    void displayCollection() const { [
+        for (const auto& b : books) b.display();
+        for (const auto& n : newspapers) n.display();
+    }
+
+    void sortBooksByPages() {
+        for (int i = 0; i < books.size(); i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < books.size(); j++) {
+                if (books[j].pages < books[minIdx].pages) minIdx = j;
+            }
+            swap(books[i], books[minIdx]);
+        }
+    }
+
+    void sortNewspapersByEdition() { [cite: 71]
+        for (int i = 0; i < newspapers.size(); i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < newspapers.size(); j++) {
+                if (newspapers[j].edition < newspapers[minIdx].edition) minIdx = j;
+            }
+            swap(newspapers[i], newspapers[minIdx]);
+        }
+    }
+
+    Book* searchBookByTitle(string t) {
+        for (int i = 0; i < books.size(); i++) {
+            if (books[i].title == t) return &books[i];
+        }
+        return nullptr;
+    }
+
+    Newspaper* searchNewspaperByName(string n) { [cite: 84]
+        for (int i = 0; i < newspapers.size(); i++) {
+            if (newspapers[i].name == n) return &newspapers[i];
+        }
+        return nullptr;
+    }
+
+int main() {
+    Book book1("The Catcher in the Rye", "J.D. Salinger", 277);
+    Book book2("To Kill a Mockingbird", "Harper Lee", 324);
+    Newspaper newspaper1("Washington Post", "2024-10-13", "Morning Edition");
+    Newspaper newspaper2("The Times", "2024-10-12", "Weekend Edition");
+
+    Library library;
+    library.addBook(book1);
+    library.addBook(book2);
+    library.addNewspaper(newspaper1);
+    library.addNewspaper(newspaper2);
+
+    cout << "Before Sorting:\n";
+    library.displayCollection();
+
+    library.sortBooksByPages();
+    library.sortNewspapersByEdition();
+
+    cout << "\nAfter Sorting:\n";
+    library.displayCollection();
+
+    Book* foundBook = library.searchBookByTitle("The Catcher in the Rye");
+    if (foundBook) {
+        cout << "\nFound Book:\n";
+        foundBook->display();
+    } else {
+        cout << "\nBook not found.\n";
+    }
+
+    Newspaper* foundNewspaper = library.searchNewspaperByName("The Times");
+    if (foundNewspaper) {
+        cout << "\nFound Newspaper:\n";
+        foundNewspaper->display();
+    } else {
+        cout << "\nNewspaper not found.\n";
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+};
