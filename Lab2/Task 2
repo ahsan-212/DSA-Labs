@@ -1,0 +1,54 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Employee {
+protected:
+    string name;
+public:
+    Employee(string n) : name(n) {}
+
+    virtual double calculateSalary() const = 0; 
+    
+    virtual void display() const {
+        cout << "Employee: " << name << " | Salary: " << calculateSalary() << endl;
+    }
+    virtual ~Employee() {}
+};
+
+class FullTimeEmployee : public Employee {
+private:
+    double fixedSalary; 
+public:
+    FullTimeEmployee(string n, double salary) : Employee(n), fixedSalary(salary) {}
+
+    double calculateSalary() const override {
+        return fixedSalary;
+    }
+};
+
+
+class PartTimeEmployee : public Employee {
+private:
+    double hourlyRate; 
+    double hoursWorked;
+public:
+    PartTimeEmployee(string n, double rate, double hours) 
+        : Employee(n), hourlyRate(rate), hoursWorked(hours) {}
+
+    double calculateSalary() const override {
+        return hourlyRate * hoursWorked;
+    }
+};
+
+int main_task2() {
+  
+    FullTimeEmployee ft("Alice", 5000.0);
+    PartTimeEmployee pt("Bob", 20.0, 80.0);
+
+    cout << "--- Employee Details ---\n";
+    ft.display();
+    pt.display();
+
+    return 0;
+}
