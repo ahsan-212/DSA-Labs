@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Student {
+    string name;
+    int priority; 
+    Student* next;
+    Student(string n, int p) : name(n), priority(p), next(nullptr) {}
+};
+
+class ReservationQueue {
+    Student* head;
+public:
+    ReservationQueue() : head(nullptr) {}
+
+    void addStudent(string name, int priority) {
+        Student* newNode = new Student(name, priority);
+        if (!head) { head = newNode; return; }
+        Student* temp = head;
+        while (temp->next) temp = temp->next;
+        temp->next = newNode;
+    }
+
+    void updatePriority(string name, int newPriority) {
+        
+        Student* temp = head;
+        while (temp) {
+            if (temp->name == name) {
+                temp->priority = newPriority;
+                return;
+            }
+            temp = temp->next;
+        }
+    }
+
+    void bookReturned() { // Remove front
+        if (head) {
+            Student* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+
+    void display() {
+        Student* temp = head;
+        while (temp) {
+            cout << "[" << temp->name << "|P:" << temp->priority << "] ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    ReservationQueue book1, book2;
+    book1.addStudent("John", 3);
+    book1.addStudent("Sara", 1);
+    cout << "Book 1 Queue: "; book1.display();
+    book1.bookReturned();
+    cout << "After Return: "; book1.display();
+    return 0;
+}
