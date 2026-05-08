@@ -158,6 +158,42 @@ public:
 		}
 
 	}
+
+	void deleteNode(int value) {
+		if (head == NULL) return;
+
+		node* curr = head;
+
+		// 1. Find the node with the value
+		while (curr != NULL && curr->data != value) {
+			curr = curr->next;
+		}
+
+		// If value not found
+		if (curr == NULL) {
+			cout << "Value not found." << endl;
+			return;
+		}
+
+		// 2. If node to be deleted is the Head
+		if (curr == head) {
+			head = curr->next;
+			if (head != NULL) head->prev = NULL;
+		}
+		// 3. If node is in the middle or end
+		else {
+			// Link the previous node to the next one
+			curr->prev->next = curr->next;
+
+			// If it's NOT the tail, link the next node back to the previous one
+			if (curr->next != NULL) {
+				curr->next->prev = curr->prev;
+			}
+		}
+
+		delete curr;
+		cout << "Node deleted." << endl;
+	}
 };
 
 int main() {
@@ -174,6 +210,10 @@ int main() {
 	D1.TraverseForward();
 	cout << "\nTraverse Backward" << endl;	
 	D1.TraverseBackward();
+	cout << endl;
+	D1.deleteNode(30);
+	cout << "Traverse Forward After deletion" << endl;
+	D1.TraverseForward();
 }
 
 
