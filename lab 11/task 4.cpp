@@ -1,3 +1,16 @@
+/*
+Task 4: Find Minimum and Maximum in BST
+
+This program uses recursion to find:
+1. Minimum value in the BST
+2. Maximum value in the BST
+
+The minimum value is found by moving to the
+leftmost node.
+
+The maximum value is found by moving to the
+rightmost node.
+*/
 #include <iostream>
 using namespace std;
 
