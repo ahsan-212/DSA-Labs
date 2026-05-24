@@ -1,3 +1,15 @@
+/*
+Task 2: Binary Search Tree Insertion
+
+This program implements a Binary Search Tree (BST).
+
+Integer values are inserted according to BST rules:
+- Smaller values go to the left side.
+- Greater values go to the right side.
+
+An inorder traversal is used to display values
+in ascending order.
+*/
 //#include <iostream>
 //using namespace std;
 //
