@@ -1,3 +1,14 @@
+/*
+Task 3: BST Recursive Search
+
+This program extends the BST implementation.
+
+A recursive search function is used to find a value
+entered by the user.
+
+If the value exists in the BST, the program displays
+"Value Found". Otherwise it displays "Value Not Found".
+*/
 //#include <iostream>
 //using namespace std;
 //
