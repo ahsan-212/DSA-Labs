@@ -1,3 +1,16 @@
+/*
+Task 1: Binary Tree Traversal
+
+This program manually creates a binary tree using integer values.
+The tree contains at least 5 nodes.
+
+Three recursive traversal functions are implemented:
+1. Inorder Traversal
+2. Preorder Traversal
+3. Postorder Traversal
+
+The program prints the tree nodes in all traversal orders.
+*/
 //#include <iostream>
 //using namespace std;
 //
