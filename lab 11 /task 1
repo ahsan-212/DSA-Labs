@@ -1,1 +1,74 @@
-
+//#include <iostream>
+//using namespace std;
+//
+//struct Node
+//{
+//    int data;
+//    Node* left;
+//    Node* right;
+//
+//    Node(int value)
+//    {
+//        data = value;
+//        left = NULL;
+//        right = NULL;
+//    }
+//};
+//
+//// start from Left then Root then Right
+//
+//void inorder(Node* root)
+//{
+//    if (root == NULL)
+//        return;
+//
+//    inorder(root->left);
+//    cout << root->data << " ";
+//    inorder(root->right);
+//}
+//
+//// it starts from Root and then Left to Right
+//
+//void preorder(Node* root)
+//{
+//    if (root == NULL)
+//        return;
+//
+//    cout << root->data << " ";
+//    preorder(root->left);
+//    preorder(root->right);
+//}
+//
+//// its Left -> Right -> Root
+//void postorder(Node* root)
+//{
+//    if (root == NULL)
+//        return;
+//
+//    postorder(root->left);
+//    postorder(root->right);
+//    cout << root->data << " ";
+//}
+//
+//int main()
+//{
+//
+//    Node* root = new Node(10);
+//
+//    root->left = new Node(20);
+//    root->right = new Node(30);
+//
+//    root->left->left = new Node(40);
+//    root->left->right = new Node(50);
+//
+//    cout << "Inorder Traversal: " << endl;
+//    inorder(root);
+//
+//    cout << "\nPreorder Traversal: " << endl;
+//    preorder(root);
+//
+//    cout << "\nPostorder Traversal: " << endl;
+//    postorder(root);
+//
+//    return 0;
+//}
