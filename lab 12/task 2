@@ -1,0 +1,126 @@
+#include <iostream>
+using namespace std;
+
+struct node {
+
+	int data;
+	node* ltree;
+	node* rtree;
+
+};
+
+node* mytreeroot = null;
+
+
+node* insert(node* root, int value) {
+
+	if (root == null) {
+
+		node* newnode = new node();
+		newnode->data = value;
+		newnode->ltree = null;
+		newnode->rtree = null;
+		return newnode;
+	}
+	else {
+
+		if (value > root->data) {
+			root->rtree = insert(root->rtree, value);
+		}
+		else if (value < root->data) {
+			root->ltree = insert(root->ltree, value);
+		}
+		else {
+			value == root->data;
+			cout << "value " << value << " is a duplicate and was ignored." << endl;
+		}
+		return root;
+	}
+
+}
+
+node* findmin(node* rootnode) {
+	while (rootnode->ltree != null) {
+		rootnode = rootnode->ltree; 
+	}
+	return rootnode;
+}
+
+node* delete (node* root, int value) {
+
+	if (root == null) return root; // value not found, tree is not htere
+
+	// traverse the tree to find node we need to delete
+
+	if (value < root->data) {
+		root->ltree = delete(root->ltree, value);
+	}
+	else if (value > root->data) {
+		root->rtree = delete(root->rtree, value);
+	}
+
+	else {
+
+		if (root->ltree == null) {
+			node* temp = root->rtree;
+			delete root;
+			return temp;
+		} else if (root->rtree == null) {
+			node* temp = root->ltree;
+				delete root;
+				return temp;
+		} 
+
+		// case 3: node with two children
+     	// (smallest in the right subtree)
+		node* temp = findmin(root->rtree);
+
+		// copy the inorder data to this node
+		root->data = temp->data;
+
+		// 3. delete the inorder successor from the right subtree
+		root->rtree = delete(root->rtree, temp->data);
+		
+	}
+	return root;
+
+}
+
+void inordertraversal(node* root) {
+
+	if (root == null)return;
+	inordertraversal(root->ltree);
+	cout << root->data << " -> ";
+	inordertraversal(root->rtree);
+
+}
+
+
+int main() {
+	mytreeroot = insert(mytreeroot, 50);
+	mytreeroot = insert(mytreeroot, 30);
+	mytreeroot = insert(mytreeroot, 20);
+	mytreeroot = insert(mytreeroot, 40);
+	mytreeroot = insert(mytreeroot, 70);
+	mytreeroot = insert(mytreeroot, 60);
+	mytreeroot = insert(mytreeroot, 80);
+
+	cout << "tree built successfully with renamed global root!\n" << endl;
+
+	// case 1
+	mytreeroot = delete(mytreeroot, 20);
+	cout << "after delete leaf node (20): " << endl;
+	inordertraversal(mytreeroot);
+	
+
+	// case 2
+	mytreeroot = delete(mytreeroot, 30);
+	cout << "\nafter delete node 1 child (30): " << endl;
+	inordertraversal(mytreeroot);
+	
+	// case 3
+	mytreeroot = delete(mytreeroot, 50);
+	cout << "\nafter delete node 2 child (50): " << endl;
+	inordertraversal(mytreeroot);
+	
+}
