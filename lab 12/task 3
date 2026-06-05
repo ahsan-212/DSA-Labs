@@ -1,0 +1,96 @@
+
+#include <iostream>
+using namespace std;
+
+struct node {
+
+	int data;
+	node* Ltree;
+	node* Rtree;
+
+};
+
+node* insert(node* root, int value) {
+
+	if (root == NULL) {
+
+		node* newnode = new node();
+		newnode->data = value;
+		newnode->Ltree = NULL;
+		newnode->Rtree = NULL;
+		return newnode;
+	}
+	else {
+
+		if (value > root->data) {
+			root->Rtree = insert(root->Rtree, value);
+		}
+		else if (value < root->data) {
+			root->Ltree = insert(root->Ltree, value);
+		}
+		else {
+			value == root->data;
+			cout << "value " << value << " is a duplicate and was ignored." << endl;
+		}
+		return root;
+	}
+
+}
+
+
+void inordertraversal(node* root) {
+
+	if (root == NULL)return;
+	inordertraversal(root->Ltree);
+	cout << root->data << " -> ";
+	inordertraversal(root->Rtree);
+
+}
+
+bool isidentical(node* root1, node* root2) {
+
+	if (root1 == NULL && root2 == NULL) {
+		return true;
+	}
+
+	if (root1 == NULL || root2 == NULL) {
+		return false;
+	}
+
+	return (root1->data == root2->data) &&
+		isidentical(root1->Rtree, root2->Rtree) &&
+		isidentical(root1->Ltree, root2->Ltree);
+
+}
+
+int main() {
+	node* tree1 = NULL;
+	node* tree2 = NULL;
+
+	tree1 = insert(tree1, 50);
+	tree1 = insert(tree1, 30);
+	tree1 = insert(tree1, 70);
+	tree1 = insert(tree1, 20);
+	tree1 = insert(tree1, 40);
+
+	tree2 = insert(tree2, 50);
+	tree2 = insert(tree2, 10);
+	tree2 = insert(tree2, 70);
+	tree2 = insert(tree2, 20);
+	tree2 = insert(tree2, 40);
+
+	cout << "Tree 1 traversal: " << endl;
+	inordertraversal(tree1);
+	cout << "\nTree 2 traversal: " << endl;
+	inordertraversal(tree2);
+
+
+
+	if (isidentical(tree1, tree2)) {
+		cout << "\nResult: Both Binary Search Trees are IDENTICAL!" << endl;
+	}
+	else {
+		cout << "\nResult: The trees are NOT identical." << endl;
+	}
+	
+}
