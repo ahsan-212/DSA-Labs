@@ -1,0 +1,111 @@
+#include <iostream>
+using namespace std;
+
+struct node {
+
+	int data;
+	node* LTree;
+	node* RTree;
+
+};
+
+node* root = NULL;
+
+
+node* insert(node* root, int value) {
+
+	if (root == NULL) {
+
+		node* newnode = new node();
+		newnode->data = value;
+		newnode->LTree = NULL;
+		newnode->RTree = NULL;
+		return newnode;
+	}
+	else {
+
+		if (value > root->data) {
+			root->RTree = insert(root->RTree, value);
+		}
+		else if (value < root->data) {
+			root->LTree = insert(root->LTree, value);
+		}
+		else {
+			value == root->data;
+			cout << "Value " << value << " is a duplicate and was ignored." << endl;
+		}
+		return root;
+	}
+
+}
+
+void PreorderTraversal(node* root) {
+
+	if (root == NULL) return;
+	cout << root->data << " -> ";
+	PreorderTraversal(root->LTree);
+	PreorderTraversal(root->RTree);
+
+}
+
+void InorderTraversal(node* root) {
+
+	if (root == NULL)return;
+	InorderTraversal(root->LTree);
+	cout << root->data << " -> ";
+	InorderTraversal(root->RTree);
+
+}
+
+void PostorderTraversal(node* root) {
+	
+	if (root == NULL)return;
+	PostorderTraversal(root->LTree);
+	PostorderTraversal(root->RTree);
+	cout << root->data << " -> ";
+
+}
+
+void Search(node* root, int target) {
+
+	if (root == NULL) {
+		cout << "Value " << target << " not found in the tree." << endl;
+		return;
+	}
+	   
+		if (target > root->data) {
+			Search(root->RTree, target);
+		} else(target < root->data); {
+			Search(root->LTree, target);
+		}
+
+		if (target == root->data) {
+			cout << "Value " << target << " successfully found!" << endl;
+			return;
+		}
+}
+
+int main() {
+
+
+	root = insert(root, 50);
+	insert(root, 30);
+	insert(root, 30);
+	insert(root, 40);
+	insert(root, 70);
+	insert(root, 60);
+	insert(root, 80);
+
+	cout << "Tree built successfully!!!!!!!!" << endl;
+
+	cout << "--- TREE TRAVERSALS ---" << endl;
+	cout << "Pre-order  (Root->L->R): "; PreorderTraversal(root);  cout << endl;
+	cout << "In-order   (L->Root->R): "; InorderTraversal(root);   cout << endl;
+	cout << "Post-order (L->R->Root): "; PostorderTraversal(root); cout << endl;
+	cout << "-----------------------" << endl;
+
+	cout << "\n--- SEARCH OPERATIONS ---" << endl;
+	Search(root, 40); 
+	Search(root, 95); 
+
+}
