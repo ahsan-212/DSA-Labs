@@ -1,0 +1,116 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+struct BookNode {
+    int isbn;
+    string title;
+    BookNode* LTree;
+    BookNode* RTree;
+};
+
+
+struct ListNode {
+    int isbn;
+    string title;
+    ListNode* next;
+};
+
+// Global pointers for management
+BookNode* libraryRoot = NULL;
+ListNode* catalogHead = NULL;
+ListNode* catalogTail = NULL; // Helper pointer to append to the list in O(1) time
+
+
+BookNode* insertBook(BookNode* root, int isbn, string title) {
+    if (root == NULL) {
+        BookNode* newNode = new BookNode();
+        newNode->isbn = isbn;
+        newNode->title = title;
+        newNode->LTree = NULL;
+        newNode->RTree = NULL;
+        return newNode;
+    }
+
+    if (isbn < root->isbn) {
+        root->LTree = insertBook(root->LTree, isbn, title);
+    } 
+    else if (isbn > root->isbn) {
+        root->RTree = insertBook(root->RTree, isbn, title);
+    } 
+    else {
+        cout << "Book with ISBN " << isbn << " already exists. Ignored.\n";
+    }
+    return root;
+}
+
+
+
+// Helper function to append a book record to the Singly Linked List
+void appendToList(int isbn, string title) {
+    ListNode* newNode = new ListNode();
+    newNode->isbn = isbn;
+    newNode->title = title;
+    newNode->next = NULL;
+
+  
+    if (catalogHead == NULL) {
+        catalogHead = newNode;
+        catalogTail = newNode;
+    } else {
+       
+        catalogTail->next = newNode;
+        catalogTail = newNode;
+    }
+}
+
+void convertBSTToLinkedList(BookNode* root) {
+    if (root == NULL) return;
+
+    convertBSTToLinkedList(root->LTree);
+ 
+    appendToList(root->isbn, root->title);
+   
+    convertBSTToLinkedList(root->RTree);
+}
+
+
+// Print the Singly Linked List catalog sequentially
+void printCatalog(ListNode* head) {
+    if (head == NULL) {
+        cout << "The catalog is empty." << endl;
+        return;
+    }
+    
+    ListNode* current = head;
+    while (current != NULL) {
+        cout << "[ISBN: " << current->isbn << " | Title: " << current->title << "] -> \n";
+        current = current->next;
+    }
+    cout << "NULL\n" << endl;
+}
+
+
+int main() {
+   
+    cout << "Populating Library Database..." << endl;
+    libraryRoot = insertBook(libraryRoot, 456, "The C++ Programming Language");
+    libraryRoot = insertBook(libraryRoot, 123, "Introduction to Algorithms");
+    libraryRoot = insertBook(libraryRoot, 789, "Clean Code");
+    libraryRoot = insertBook(libraryRoot, 234, "Design Patterns");
+    libraryRoot = insertBook(libraryRoot, 612, "Artificial Intelligence: A Modern Approach");
+    
+    cout << "Library BST successfully created!\n" << endl;
+
+    // Step 2: Trigger the recursive conversion
+    cout << "Converting BST into a sorted Singly Linked List catalog..." << endl;
+    convertBSTToLinkedList(libraryRoot);
+    cout << "Conversion Complete!\n" << endl;
+
+    // Step 3: Print out the final sequential catalog
+    cout << "=== FINAL SORTED BOOK CATALOG ===" << endl;
+    printCatalog(catalogHead);
+
+    return 0;
+}
