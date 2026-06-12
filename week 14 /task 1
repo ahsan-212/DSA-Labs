@@ -1,0 +1,148 @@
+#include <iostream>
+using namespace std;
+
+class node {
+
+public:
+	int data;
+	node* left;
+	node* right;
+
+	node(int val) {
+		data = val;
+		left = right = NULL;
+	}
+};
+
+class bst {
+
+	node* root;
+
+	node* inserthelp(node* root , int val) {
+
+		if (root == NULL) {
+			return new node(val);
+		}
+
+		if (val < root->data) {
+			root->left = inserthelp(root->left, val);
+		}
+
+		if (val > root->data) {
+			root->right = inserthelp(root->right, val);
+		}
+
+
+		return root;
+	}
+
+	node* findmin(node* n) {
+
+		while (n->left != NULL) {
+			n = n->left;
+		}
+
+		return n;
+	}
+
+	node* deletehelp(node* n, int val) {
+
+		if (n == NULL) { return n; }
+
+		if (val > n->data) {
+			n->right = deletehelp(n->right, val);
+		}
+		else if (val < n->data) {
+			n->left = deletehelp(n->left, val);
+		}
+
+		else {
+			//zero child
+
+			if (n->left == NULL && n->right == NULL) {
+				delete n;
+				return NULL;
+			}
+
+			//one child
+
+			if (n->right == NULL) {
+				node* temp = n->left;
+				delete n;
+				return temp;
+			}
+
+			if (n->left == NULL) {
+				node* temp = n->right;
+				delete n;
+				return temp;
+			}
+
+			// two child
+
+			node* temp = findmin(n->right);
+			n->data = temp->data;
+			n->right = deletehelp(n->right, temp->data);
+
+		}
+
+		return n;
+
+	}
+
+
+	void inorderhelper(node* n) {
+		if (n == NULL)return;
+
+		inorderhelper(n->left);
+		cout << n->data << " - > ";
+		inorderhelper(n->right);
+
+	}
+
+public:
+
+	bst() {
+		root = NULL;
+	}
+
+	void insert(int val) {
+
+		root = inserthelp(root, val);
+
+	}
+
+	void deletion (int val)
+	{
+		root = deletehelp(root, val);
+	}
+
+	void print() {
+
+		inorderhelper(root);
+
+	}
+
+};
+
+int main() {
+
+	bst t;
+	t.insert(50);
+	t.insert(30);
+	t.insert(70);
+	t.insert(50);
+	t.insert(20);
+	t.insert(40);
+	t.insert(60);
+	t.insert(80);
+
+	cout << "tree contents: ";
+	t.print();
+
+	cout << "null \n deleting 30..." << endl;
+	t.deletion(30);
+	t.print();
+	
+}
+
